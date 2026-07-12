@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { withdraw } from "../services/withdrawalService";
 
-const INVESTOR_ID = 1;
-
-export default function WithdrawalForm({ investor, refresh }) {
+export default function WithdrawalForm({
+    investor,
+    investorId,
+    refresh
+}) {
 
     const [amount, setAmount] = useState("");
     const [selectedProduct, setSelectedProduct] = useState("");
@@ -11,13 +13,29 @@ export default function WithdrawalForm({ investor, refresh }) {
     const [success, setSuccess] = useState("");
     const [error, setError] = useState("");
 
-    useEffect(() => {
+    // Only display products that are currently eligible for withdrawal
+    const availableProducts = investor?.products?.filter((product) => {
 
-        if (investor.products.length > 0) {
-            setSelectedProduct(investor.products[0].id);
+        if (
+            product.productType === "RETIREMENT_ANNUITY" &&
+            investor.age <= 65
+        ) {
+            return false;
         }
 
-    }, [investor]);
+        return true;
+
+    }) || [];
+
+    useEffect(() => {
+
+        if (availableProducts.length > 0) {
+            setSelectedProduct(availableProducts[0].id);
+        } else {
+            setSelectedProduct("");
+        }
+
+    }, [availableProducts]);
 
     const handleSubmit = async (e) => {
 
@@ -26,11 +44,16 @@ export default function WithdrawalForm({ investor, refresh }) {
         setSuccess("");
         setError("");
 
+        if (!selectedProduct) {
+            setError("No eligible investment is available for withdrawal.");
+            return;
+        }
+
         try {
 
             await withdraw({
 
-                investorId: INVESTOR_ID,
+                investorId,
                 productId: Number(selectedProduct),
                 amount: Number(amount)
 
@@ -61,70 +84,92 @@ export default function WithdrawalForm({ investor, refresh }) {
 
             <h2>💸 Withdraw Funds</h2>
 
-            <form onSubmit={handleSubmit}>
+            {availableProducts.length === 0 ? (
 
-                <div className="form-group">
+                <div className="error">
 
-                    <label>Select Investment</label>
+                    No investment products are currently eligible for withdrawal.
 
-                    <select
-                        value={selectedProduct}
-                        onChange={(e) => setSelectedProduct(e.target.value)}
+                </div>
+
+            ) : (
+
+                <form onSubmit={handleSubmit}>
+
+                    <div className="form-group">
+
+                        <label>Select Investment</label>
+
+                        <select
+                            value={selectedProduct}
+                            onChange={(e) => setSelectedProduct(e.target.value)}
+                            required
+                        >
+
+                            {availableProducts.map((product) => (
+
+                                <option
+                                    key={product.id}
+                                    value={product.id}
+                                >
+
+                                    {product.productName} (
+                                    {product.productType
+                                        .replaceAll("_", " ")
+                                        .toLowerCase()
+                                        .replace(/\b\w/g, c => c.toUpperCase())}
+                                    )
+
+                                </option>
+
+                            ))}
+
+                        </select>
+
+                    </div>
+
+                    <div className="form-group">
+
+                        <label>Withdrawal Amount</label>
+
+                        <input
+                            type="number"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            placeholder="Enter amount"
+                            min="0.01"
+                            step="0.01"
+                            required
+                        />
+
+                    </div>
+
+                    <button
+                        className="button"
+                        type="submit"
                     >
+                        Withdraw
+                    </button>
 
-                        {investor.products.map(product => (
+                </form>
 
-                            <option
-                                key={product.id}
-                                value={product.id}
-                            >
+            )}
 
-                                {product.productName} (
-                                {product.productType.replaceAll("_", " ")}
-                                )
+            {success && (
 
-                            </option>
-
-                        ))}
-
-                    </select>
-
-                </div>
-
-                <div className="form-group">
-
-                    <label>Withdrawal Amount</label>
-
-                    <input
-                        type="number"
-                        value={amount}
-                        onChange={(e)=>setAmount(e.target.value)}
-                        placeholder="Enter amount"
-                        required
-                    />
-
-                </div>
-
-                <button
-                    className="button"
-                    type="submit"
-                >
-                    Withdraw
-                </button>
-
-            </form>
-
-            {success &&
                 <div className="success">
                     ✅ {success}
                 </div>
-            }
 
-            {error &&
+            )}
+
+            {error && (
+
                 <div className="error">
                     ❌ {error}
                 </div>
-            }
+
+            )}
 
         </div>
 
