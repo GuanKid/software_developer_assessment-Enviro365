@@ -23,9 +23,14 @@ public class Investor {
 
     private Integer age;
 
-    @Digits(integer = 10, fraction = 2)
-    @Column(nullable = false)
-    private BigDecimal balance;
+    @Transient
+    public BigDecimal getBalance() {
+
+        return products.stream()
+                .map(Product::getValue)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+    }
 
     @OneToMany(
             mappedBy = "investor",
