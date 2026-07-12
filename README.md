@@ -404,41 +404,6 @@ Export CSV (Optional)
 
 ---
 
-# 🎯 Learning Outcomes
-
-This project demonstrates practical experience with:
-
-- REST API Development
-- Layered Software Architecture
-- DTO Design
-- Entity Relationships
-- Spring Data JPA
-- Bean Validation
-- Exception Handling
-- React Components
-- Axios Integration
-- Responsive UI Design
-- CSV File Generation
-- Full Stack Development
-
----
-
-# 🚀 Future Improvements
-
-- JWT Authentication
-- User Authorization
-- Multiple Investors
-- PostgreSQL Support
-- SQL Server Support
-- Unit Testing
-- Integration Testing
-- Docker
-- CI/CD Pipeline
-- Investment Analytics Dashboard
-- Search & Filtering
-- Pagination
-- Dark Mode
-
 ---
 
 # 👨‍💻 Author
