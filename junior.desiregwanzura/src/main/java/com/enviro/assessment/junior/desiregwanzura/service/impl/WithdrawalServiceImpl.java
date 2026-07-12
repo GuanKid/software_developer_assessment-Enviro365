@@ -78,7 +78,6 @@ public class WithdrawalServiceImpl implements WithdrawalService {
         BigDecimal remainingProductValue =
                 product.getValue().subtract(request.getAmount());
 
-        investor.setBalance(remainingBalance);
         product.setValue(remainingProductValue);
 
         Withdrawal withdrawal = new Withdrawal();
