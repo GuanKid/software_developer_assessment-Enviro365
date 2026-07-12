@@ -7,13 +7,25 @@ export default function WithdrawalHistory({ withdrawals }) {
       <div className="table-header">
         <h2>📄 Withdrawal History</h2>
 
-        <button className="button export-btn" onClick={exportCsv}>
-          Download CSV
-        </button>
+        <button
+    className="button export-btn"
+    onClick={exportCsv}
+    disabled={withdrawals.length === 0}
+>
+    Download CSV
+</button>
       </div>
 
       {withdrawals.length === 0 ? (
-        <div className="empty-state">No withdrawals have been made.</div>
+        <div className="empty-state">
+
+    <h3>No Withdrawals Yet</h3>
+
+    <p>
+        Your completed withdrawal transactions will appear here.
+    </p>
+
+</div>
       ) : (
         <table>
           <thead>
