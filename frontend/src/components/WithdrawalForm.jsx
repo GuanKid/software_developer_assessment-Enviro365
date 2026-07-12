@@ -29,13 +29,20 @@ export default function WithdrawalForm({
 
     useEffect(() => {
 
-        if (availableProducts.length > 0) {
-            setSelectedProduct(availableProducts[0].id);
-        } else {
-            setSelectedProduct("");
-        }
+    if (availableProducts.length === 0) {
+        setSelectedProduct("");
+        return;
+    }
 
-    }, [availableProducts]);
+    const exists = availableProducts.some(
+        product => product.id === Number(selectedProduct)
+    );
+
+    if (!exists) {
+        setSelectedProduct(availableProducts[0].id);
+    }
+
+}, [availableProducts, selectedProduct]);
 
     const handleSubmit = async (e) => {
 
