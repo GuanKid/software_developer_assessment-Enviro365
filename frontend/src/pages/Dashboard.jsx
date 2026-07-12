@@ -9,9 +9,11 @@ import WithdrawalHistory from "../components/WithdrawalHistory";
 import { getInvestor } from "../services/investorService";
 import { getWithdrawals } from "../services/withdrawalService";
 
-const INVESTOR_ID = 1;
+const DEFAULT_INVESTOR_ID = 1;
 
 export default function Dashboard() {
+
+    const [investorId] = useState(DEFAULT_INVESTOR_ID);
 
     const [investor, setInvestor] = useState(null);
     const [withdrawals, setWithdrawals] = useState([]);
@@ -21,7 +23,7 @@ export default function Dashboard() {
 
         try {
 
-            const investorResponse = await getInvestor(INVESTOR_ID);
+            const investorResponse = await getInvestor(investorId);
             const withdrawalResponse = await getWithdrawals();
 
             setInvestor(investorResponse);
@@ -43,10 +45,13 @@ export default function Dashboard() {
 
         loadData();
 
-    }, []);
+    }, [investorId]);
 
-    if (loading)
+    if (loading) {
+
         return <h2 className="loading">Loading Dashboard...</h2>;
+
+    }
 
     return (
 
@@ -65,9 +70,10 @@ export default function Dashboard() {
                 </div>
 
                 <WithdrawalForm
-    investor={investor}
-    refresh={loadData}
-/>
+                    investor={investor}
+                    investorId={investorId}
+                    refresh={loadData}
+                />
 
                 <WithdrawalHistory withdrawals={withdrawals} />
 
