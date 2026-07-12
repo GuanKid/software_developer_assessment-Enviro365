@@ -451,7 +451,7 @@ Full Stack Software Developer
 
 🌐 Portfolio: **https://guankid.github.io/Portfolio/**
 
-💼 LinkedIn: **https://linkedin.com/in/YOUR_LINKEDIN**
+💼 LinkedIn: **https://www.linkedin.com/in/desire-gwanzura/**
 
 🐙 GitHub: **https://https://github.com/GuanKid**
 
