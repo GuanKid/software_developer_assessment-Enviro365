@@ -423,6 +423,23 @@ This project demonstrates practical experience with:
 
 ---
 
+# 🚀 Future Improvements
+
+- JWT Authentication
+- User Authorization
+- Multiple Investors
+- PostgreSQL Support
+- SQL Server Support
+- Unit Testing
+- Integration Testing
+- Docker
+- CI/CD Pipeline
+- Investment Analytics Dashboard
+- Search & Filtering
+- Pagination
+- Dark Mode
+
+---
 
 # 👨‍💻 Author
 
