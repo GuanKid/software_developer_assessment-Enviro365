@@ -19,9 +19,12 @@ export default function ProductList({ products }) {
 
                         <h3>{product.productName}</h3>
 
-                        <small>
-                            {product.productType.replaceAll("_", " ")}
-                        </small>
+                        <small className="product-type">
+    {product.productType
+        .replaceAll("_", " ")
+        .toLowerCase()
+        .replace(/\b\w/g, c => c.toUpperCase())}
+</small>
 
                         <p className="product-value">
                             {formatCurrency(product.value)}
