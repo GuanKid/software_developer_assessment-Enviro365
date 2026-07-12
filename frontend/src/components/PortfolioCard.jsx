@@ -23,6 +23,13 @@ export default function PortfolioCard({ investor }) {
                 </strong>
             </div>
 
+            <div className="info-row">
+    <span>Retirement Annuity Eligibility</span>
+    <strong className={investor.age > 65 ? "eligible" : "not-eligible"}>
+        {investor.age > 65 ? "Eligible" : "Not Eligible"}
+    </strong>
+</div>
+
         </div>
     );
 }
