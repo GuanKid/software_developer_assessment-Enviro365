@@ -1,7 +1,13 @@
 import { formatCurrency } from "../utils/formatters";
 
 export default function PortfolioCard({ investor }) {
+
+    const hasRetirementAnnuity = investor.products.some(
+        product => product.productType === "RETIREMENT_ANNUITY"
+    );
+
     return (
+
         <div className="card">
 
             <h2>👤 Investor Portfolio</h2>
@@ -23,13 +29,30 @@ export default function PortfolioCard({ investor }) {
                 </strong>
             </div>
 
-            <div className="info-row">
-    <span>Retirement Annuity Eligibility</span>
-    <strong className={investor.age > 65 ? "eligible" : "not-eligible"}>
-        {investor.age > 65 ? "Eligible" : "Not Eligible"}
-    </strong>
-</div>
+            {hasRetirementAnnuity && (
+
+                <div className="info-row">
+
+                    <span>Retirement Annuity Eligibility</span>
+
+                    <strong
+                        className={
+                            investor.age > 65
+                                ? "eligible"
+                                : "not-eligible"
+                        }
+                    >
+                        {investor.age > 65
+                            ? "Eligible"
+                            : "Not Eligible"}
+                    </strong>
+
+                </div>
+
+            )}
 
         </div>
+
     );
+
 }
